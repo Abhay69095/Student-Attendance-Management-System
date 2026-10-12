@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+        // Suppress benign Vite HMR WebSocket connection closures in remote sandboxes
+        const OriginalWebSocket = window.WebSocket;
+        if (OriginalWebSocket) {
+          window.WebSocket = function(url, protocols) {
+            const ws = protocols !== undefined ? new OriginalWebSocket(url, protocols) : new OriginalWebSocket(url);
+            ws.addEventListener('error', function(e) {
+              if (e && e.stopImmediatePropagation) e.stopImmediatePropagation();
+            });
+            return ws;
+          };
+          window.WebSocket.prototype = OriginalWebSocket.prototype;
+          window.WebSocket.CONNECTING = OriginalWebSocket.CONNECTING;
+          window.WebSocket.OPEN = OriginalWebSocket.OPEN;
+          window.WebSocket.CLOSING = OriginalWebSocket.CLOSING;
+          window.WebSocket.CLOSED = OriginalWebSocket.CLOSED;
+        }
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var msg = event?.reason?.message || String(event?.reason || '');
+          if (msg.includes('WebSocket')) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        });
+
+        window.addEventListener('error', function(event) {
+          var msg = event?.message || event?.error?.message || '';
+          if (msg.includes('WebSocket')) {
+            event.preventDefault();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClassAttend - Student Attendance Management System</title>
+    <meta name="description" content="Comprehensive full-stack attendance management system for coaching institutes, tuition centres, and schools with role-based access, analytics, and session auditing." />
+    <meta property="og:title" content="ClassAttend - Student Attendance Management System" />
+    <meta property="og:description" content="Comprehensive full-stack attendance management system for coaching institutes, tuition centres, and schools with role-based access, analytics, and session auditing." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

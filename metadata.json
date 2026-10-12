@@ -1,0 +1,6 @@
+{
+  "name": "ClassAttend - Student Attendance Management System",
+  "description": "Comprehensive full-stack attendance management system for coaching institutes, tuition centres, and schools with role-based access, analytics, and session auditing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
